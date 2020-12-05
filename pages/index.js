@@ -21,17 +21,19 @@ export default function Home() {
           <code className={styles.code}>pages/index.js</code>
         </p>
         <button onClick={() => auth.signinWithGitHub()}>Sing In</button>
-        <div className={styles.fuck}>
-          <div className={styles.image}>
-            <Image
-              src="https://avatars2.githubusercontent.com/u/50174243?v=4"
-              alt="photo"
-              width={30}
-              height={30}
-            />{" "}
+        {auth?.user && (
+          <div className={styles.fuck}>
+            <div className={styles.image}>
+              <Image
+                src="https://avatars2.githubusercontent.com/u/50174243?v=4"
+                alt="photo"
+                width={30}
+                height={30}
+              />{" "}
+            </div>
+            <span>{auth?.user?.email}</span>
           </div>
-          <span>{auth?.user?.email}</span>
-        </div>
+        )}
         {auth?.user && <button onClick={() => auth.signout()}>SingOut</button>}
       </main>
 
