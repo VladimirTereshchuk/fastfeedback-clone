@@ -1,52 +1,62 @@
 import Head from "next/head";
-import { useAuth } from "../lib/auth";
-import styles from "../styles/Home.module.css";
-import Image from "next/image";
+import {
+  Link as ChakraLink,
+  Text,
+  Button,
+  Heading,
+  Flex,
+  Stack,
+  Icon,
+} from "@chakra-ui/react";
+import { Container } from "@/components/Container";
+import { Main } from "@/components/Main";
+import { DarkModeSwitch } from "@/components/DarkModeSwitch";
+import { Footer } from "@/components/Footer";
+import { useAuth } from "@/lib/auth";
+import Link from "next/link";
 
-export default function Home() {
+const Index = (props) => {
   const auth = useAuth();
-  console.log(auth);
   return (
-    <div className={styles.container}>
+    <Container height="100vh">
       <Head>
-        <title>Create Next App</title>
+        <title>Fast Feedback</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
+      <Main mx="auto">
+        <Heading fontSize="5vw" textAlign="center">
+          Fast Feedback
+        </Heading>
 
-      <main className={styles.main}>
-        <h1 className={styles.title}>Fast Feedback</h1>
+        <Icon viewBox="0 0 46 30" w="30" h="10" color="blue.200">
+          <path
+            d="M19.557.113C11.34.32 9.117 8.757 9.03 12.95c1.643-2.67 4.62-3.08 6.931-3.08 2.825.085 10.27.205 17.458 0C40.61 9.663 44.802 3.28 46 .112c-5.391-.085-18.228-.205-26.443 0zM14.422 14.234C3.332 14.234-.468 24.76.045 31.948c3.594-6.418 7.617-7.53 9.243-7.445h6.675c5.956 0 11.039-6.846 12.836-10.27H14.422z"
+            fill="currentColor"
+          />
+        </Icon>
 
-        <p className={styles.description}>
-          Get started by editing{" "}
-          <code className={styles.code}>pages/index.js</code>
-        </p>
-        <button onClick={() => auth.signinWithGitHub()}>Sing In</button>
-        {auth?.user && (
-          <div className={styles.fuck}>
-            <div className={styles.image}>
-              <Image
-                src="https://avatars2.githubusercontent.com/u/50174243?v=4"
-                alt="photo"
-                width={30}
-                height={30}
-              />{" "}
-            </div>
-            <span>{auth?.user?.email}</span>
-          </div>
-        )}
-        {auth?.user && <button onClick={() => auth.signout()}>SingOut</button>}
-      </main>
+        <Stack spacing={10} justify="center">
+          <Flex mx="auto">
+            {auth?.user ? (
+              <Button bg="gray.300">
+                <Link href="/dashboard">View DashBoard</Link>
+              </Button>
+            ) : (
+              <Button bg="gray.300" onClick={() => auth.signinWithGitHub()}>
+                Sing In
+              </Button>
+            )}
+          </Flex>
+        </Stack>
+      </Main>
 
-      <footer className={styles.footer}>
-        <a
-          href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Powered by{" "}
-          <img src="/vercel.svg" alt="Vercel Logo" className={styles.logo} />
-        </a>
-      </footer>
-    </div>
+      <DarkModeSwitch />
+      <Footer>
+        <Text>Next ❤️ Chakra</Text>
+      </Footer>
+      {/* <CTA /> */}
+    </Container>
   );
-}
+};
+
+export default Index;
