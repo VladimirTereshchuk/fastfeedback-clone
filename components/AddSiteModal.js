@@ -21,16 +21,20 @@ import {
 import { createSite } from "@/lib/db";
 import { useAuth } from "@/lib/auth";
 import { mutate } from "swr";
+import firebase from "@/lib/firebase";
 
 const AddSiteModal = ({ children }) => {
   const toast = useToast();
   const auth = useAuth();
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { handleSubmit, watch, register, errors } = useForm();
+
+  const timestamp = firebase.firestore.FieldValue.serverTimestamp();
+  console.log(timestamp);
   const onCreateSite = ({ name, url }) => {
     const newSite = {
       authorId: auth.user.uid,
-      createdAt: new Date(),
+      createdAt: new Date().toISOString(),
       name,
       url,
     };

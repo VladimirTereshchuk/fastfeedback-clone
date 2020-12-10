@@ -1,14 +1,13 @@
 import React from "react";
 import NextLink from "next/link";
 import { Box, Link, Flex } from "@chakra-ui/react";
-import { parseISO, format, formatISO, lightFormat } from "date-fns";
+import { format, parseISO } from "date-fns";
 
 import { Table, Tr, Th, Td } from "./Table";
 import AddSiteModal from "./AddSiteModal";
-// import DeleteSiteButton from "./DeleteSiteButton";
+import DeleteSiteButton from "./DeleteSiteButton";
 
 const SiteTable = ({ sites }) => {
-  //   console.log(format(parseISO("2020-12-09T12:06:46.022Z")));
   return (
     <Box overflowX="scroll">
       <Flex mb="3" justify="flex-end">
@@ -54,8 +53,11 @@ const SiteTable = ({ sites }) => {
                   </Link>
                 </NextLink>
               </Td>
-              <Td>{lightFormat(new Date(2014, 1, 11), "yyyy-MM-dd")}</Td>
-              <Td>{/* <DeleteSiteButton siteId={site.id} /> */}</Td>
+
+              <Td>{format(parseISO(site.createdAt), "PPp")}</Td>
+              <Td>
+                <DeleteSiteButton siteId={site.id} />
+              </Td>
             </Box>
           ))}
         </tbody>
