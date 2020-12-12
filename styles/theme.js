@@ -19,6 +19,11 @@ const theme = extendTheme({
   colors: {
     black: "#16161D",
   },
+  fontWeights: {
+    normal: 400,
+    medium: 600,
+    bold: 700,
+  },
   fonts,
   breakpoints,
   icons: {

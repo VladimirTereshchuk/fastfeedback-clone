@@ -56,7 +56,7 @@ const DashboardShell = ({ children }) => {
             </Flex>
             <NextLink href="/account" passHref>
               <Link>
-                <Avatar size="sm" src={auth?.user?.photoURL} />
+                <Avatar size="sm" src={auth?.user?.photoUrl} />
               </Link>
             </NextLink>
           </Flex>
