@@ -10,9 +10,9 @@ import DeleteSiteButton from "./DeleteSiteButton";
 const SiteTable = ({ sites }) => {
   return (
     <Box overflowX="scroll">
-      <Flex mb="3" justify="flex-end">
+      {/* <Flex mb="3" justify="flex-end">
         <AddSiteModal>+ Add Site</AddSiteModal>
-      </Flex>
+      </Flex> */}
       <Table w="full">
         <thead>
           <Tr>
@@ -25,7 +25,7 @@ const SiteTable = ({ sites }) => {
         </thead>
         <tbody>
           {sites.map((site, index) => (
-            <Box as="tr" key={site.id}>
+            <Box as="tr" key={index}>
               <Td>
                 <NextLink
                   href="/site/[siteId]"
@@ -44,9 +44,9 @@ const SiteTable = ({ sites }) => {
               </Td>
               <Td>
                 <NextLink
-                  href="/site/[siteId]"
-                  as={`/site/${site.id}`}
-                  passHref
+                  href={`/p/${site.id}`}
+                  // as={`/site/${site.id}`}
+                  // passHref
                 >
                   <Link color="blue.500" fontWeight="medium">
                     View Feedback

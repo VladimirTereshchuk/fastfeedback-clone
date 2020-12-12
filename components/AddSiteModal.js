@@ -1,5 +1,4 @@
 import { useForm } from "react-hook-form";
-// import { mutate } from "swr";
 import {
   Modal,
   ModalOverlay,
@@ -21,24 +20,26 @@ import {
 import { createSite } from "@/lib/db";
 import { useAuth } from "@/lib/auth";
 import { mutate } from "swr";
-import firebase from "@/lib/firebase";
 
 const AddSiteModal = ({ children }) => {
   const toast = useToast();
   const auth = useAuth();
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const { handleSubmit, watch, register, errors } = useForm();
+  const { handleSubmit, register, errors } = useForm();
 
-  const timestamp = firebase.firestore.FieldValue.serverTimestamp();
-  console.log(timestamp);
   const onCreateSite = ({ name, url }) => {
     const newSite = {
       authorId: auth.user.uid,
       createdAt: new Date().toISOString(),
       name,
       url,
+      // settings: {
+      //   icons: true,
+      //   timestamp: true,
+      //   ratings: false,
+      // },
     };
-    createSite(newSite);
+    const { id } = createSite(newSite);
     toast({
       title: "Success!",
       description: "We've added your site.",
@@ -47,45 +48,14 @@ const AddSiteModal = ({ children }) => {
       isClosable: true,
     });
     mutate(
-      "api/sites",
-      async (data) => {
-        return [...data, newSite];
-      },
+      ["api/sites", auth.user.token],
+      async (data) => ({
+        sites: [{ id, ...newSite }, ...data.sites],
+      }),
       false
     );
     onClose();
   };
-
-  //   const onCreateSite = ({ name, url }) => {
-  //     const newSite = {
-  //       authorId: auth.user.uid,
-  //       createdAt: new Date().toISOString(),
-  //       name,
-  //       url,
-  //       settings: {
-  //         icons: true,
-  //         timestamp: true,
-  //         ratings: false,
-  //       },
-  //     };
-
-  //     const { id } = createSite(newSite);
-  //     toast({
-  //       title: "Success!",
-  //       description: "We've added your site.",
-  //       status: "success",
-  //       duration: 5000,
-  //       isClosable: true,
-  //     });
-  //     mutate(
-  //       ["/api/sites", auth.user.token],
-  //       async (data) => ({
-  //         sites: [{ id, ...newSite }, ...data.sites],
-  //       }),
-  //       false
-  //     );
-  //     onClose();
-  //   };
 
   return (
     <>

@@ -14,6 +14,7 @@ import { DarkModeSwitch } from "@/components/DarkModeSwitch";
 import { Footer } from "@/components/Footer";
 import { useAuth } from "@/lib/auth";
 import Link from "next/link";
+import LoginButtons from "@/components/LoginButtons";
 
 const Index = (props) => {
   const auth = useAuth();
@@ -22,6 +23,15 @@ const Index = (props) => {
       <Head>
         <title>Fast Feedback</title>
         <link rel="icon" href="/favicon.ico" />
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              if (document.cookie && document.cookie.includes('fast-feedback-auth')) {
+                window.location.href = "/dashboard"
+              }
+            `,
+          }}
+        />
       </Head>
       <Main mx="auto">
         <Heading fontSize="5vw" textAlign="center">
@@ -42,9 +52,7 @@ const Index = (props) => {
                 <Link href="/dashboard">View DashBoard</Link>
               </Button>
             ) : (
-              <Button bg="gray.300" onClick={() => auth.signinWithGitHub()}>
-                Sing In
-              </Button>
+              <LoginButtons />
             )}
           </Flex>
         </Stack>

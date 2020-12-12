@@ -7,26 +7,32 @@ import DashboardShell from "@/components/DashBoardShell";
 import SiteTableSkeleton from "@/components/SiteTableSkeleton";
 import fetcher from "@/utils/fetcher";
 import SiteTable from "@/components/SiteTable";
+import SiteTableHeader from "@/components/SiteTableHeader";
 
-const Dashboard = (props) => {
-  const auth = useAuth();
-  const { data } = useSWR("api/sites", fetcher);
-
+const Dashboard = () => {
+  const { user } = useAuth();
+  // const { data } = useSWR("api/sites", fetcher);
+  const { data } = useSWR(user ? ["api/sites", user.token] : null, fetcher);
+  const sites = data?.sites;
   // console.log(data);
 
-  if (!data) {
+  if (!sites) {
     return (
       <DashboardShell>
+        <SiteTableHeader />
         <SiteTableSkeleton />
       </DashboardShell>
     );
   }
-
+  // if (sites.length) {
   return (
     <DashboardShell>
-      {data.length > 0 ? <SiteTable sites={data} /> : <EmptyState />}
+      <SiteTableHeader />
+
+      {sites.length > 0 ? <SiteTable sites={sites} /> : <EmptyState />}
     </DashboardShell>
   );
+  // }
 };
 
 export default Dashboard;
