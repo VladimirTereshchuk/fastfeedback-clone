@@ -28,7 +28,6 @@ export async function getStaticPaths() {
 
   return {
     paths,
-
     fallback: true,
   };
 }
@@ -55,6 +54,9 @@ function SiteFeedBack({ initialFeedback }) {
     setAllFeedback([newFeedback, ...allFeedback]);
     createFeedback(newFeedback);
   };
+  if (router.isFallback) {
+    return <div>Loading...</div>;
+  }
 
   //   console.log(initialFeedback);
   return (
