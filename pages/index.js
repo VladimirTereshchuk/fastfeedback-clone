@@ -1,65 +1,70 @@
-import Head from 'next/head'
-import styles from '../styles/Home.module.css'
+import Head from "next/head";
+import {
+  Link as ChakraLink,
+  Text,
+  Button,
+  Heading,
+  Flex,
+  Stack,
+  Icon,
+} from "@chakra-ui/react";
+import { Container } from "@/components/Container";
+import { Main } from "@/components/Main";
+import { DarkModeSwitch } from "@/components/DarkModeSwitch";
+import { Footer } from "@/components/Footer";
+import { useAuth } from "@/lib/auth";
+import Link from "next/link";
+import LoginButtons from "@/components/LoginButtons";
 
-export default function Home() {
+const Index = (props) => {
+  const auth = useAuth();
   return (
-    <div className={styles.container}>
+    <Container height="100vh">
       <Head>
-        <title>Create Next App</title>
+        <title>Fast Feedback</title>
         <link rel="icon" href="/favicon.ico" />
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              if (document.cookie && document.cookie.includes('fast-feedback-auth')) {
+                window.location.href = "/dashboard"
+              }
+            `,
+          }}
+        />
       </Head>
+      <Main mx="auto">
+        <Heading fontSize="5vw" textAlign="center">
+          Fast Feedback
+        </Heading>
 
-      <main className={styles.main}>
-        <h1 className={styles.title}>
-          Welcome to <a href="https://nextjs.org">Next.js!</a>
-        </h1>
+        <Icon viewBox="0 0 46 30" w="30" h="10" color="blue.200">
+          <path
+            d="M19.557.113C11.34.32 9.117 8.757 9.03 12.95c1.643-2.67 4.62-3.08 6.931-3.08 2.825.085 10.27.205 17.458 0C40.61 9.663 44.802 3.28 46 .112c-5.391-.085-18.228-.205-26.443 0zM14.422 14.234C3.332 14.234-.468 24.76.045 31.948c3.594-6.418 7.617-7.53 9.243-7.445h6.675c5.956 0 11.039-6.846 12.836-10.27H14.422z"
+            fill="currentColor"
+          />
+        </Icon>
 
-        <p className={styles.description}>
-          Get started by editing{' '}
-          <code className={styles.code}>pages/index.js</code>
-        </p>
+        <Stack spacing={10} justify="center">
+          <Flex mx="auto">
+            {auth?.user ? (
+              <Button bg="gray.300">
+                <Link href="/dashboard">View DashBoard</Link>
+              </Button>
+            ) : (
+              <LoginButtons />
+            )}
+          </Flex>
+        </Stack>
+      </Main>
 
-        <div className={styles.grid}>
-          <a href="https://nextjs.org/docs" className={styles.card}>
-            <h3>Documentation &rarr;</h3>
-            <p>Find in-depth information about Next.js features and API.</p>
-          </a>
+      <DarkModeSwitch />
+      <Footer>
+        <Text>Next ❤️ Chakra</Text>
+      </Footer>
+      {/* <CTA /> */}
+    </Container>
+  );
+};
 
-          <a href="https://nextjs.org/learn" className={styles.card}>
-            <h3>Learn &rarr;</h3>
-            <p>Learn about Next.js in an interactive course with quizzes!</p>
-          </a>
-
-          <a
-            href="https://github.com/vercel/next.js/tree/master/examples"
-            className={styles.card}
-          >
-            <h3>Examples &rarr;</h3>
-            <p>Discover and deploy boilerplate example Next.js projects.</p>
-          </a>
-
-          <a
-            href="https://vercel.com/import?filter=next.js&utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-            className={styles.card}
-          >
-            <h3>Deploy &rarr;</h3>
-            <p>
-              Instantly deploy your Next.js site to a public URL with Vercel.
-            </p>
-          </a>
-        </div>
-      </main>
-
-      <footer className={styles.footer}>
-        <a
-          href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Powered by{' '}
-          <img src="/vercel.svg" alt="Vercel Logo" className={styles.logo} />
-        </a>
-      </footer>
-    </div>
-  )
-}
+export default Index;
