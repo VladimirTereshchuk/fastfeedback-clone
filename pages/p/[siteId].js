@@ -10,7 +10,7 @@ import { useState } from "react";
 export async function getStaticProps(context) {
   const siteId = context.params.siteId;
   const { feedback } = await getAllFeedback(siteId);
-  console.log(feedback);
+  // console.log(feedback);
   return {
     props: {
       initialFeedback: feedback,
@@ -28,7 +28,7 @@ export async function getStaticPaths() {
   return {
     paths,
 
-    fallback: false,
+    fallback: true,
   };
 }
 
@@ -50,6 +50,7 @@ function SiteFeedBack({ initialFeedback }) {
       provider: auth?.user.provider,
       status: "pending",
     };
+    inputEl.current.value = "";
     setAllFeedback([newFeedback, ...allFeedback]);
     createFeedback(newFeedback);
   };
@@ -70,6 +71,7 @@ function SiteFeedBack({ initialFeedback }) {
             id="comment"
             placeholder="Leave a comment"
             // isDisabled={!user}
+            isDisabled={router.isFallback}
             h="100px"
           />
           <Button mt={2} type="submit">
